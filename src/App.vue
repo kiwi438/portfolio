@@ -1,85 +1,93 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+
+const isLight = ref(document.documentElement.classList.contains('light'))
+
+function toggleTheme() {
+  isLight.value = !isLight.value
+  document.documentElement.classList.toggle('light', isLight.value) // ?
+  localStorage.setItem('theme', isLight.value ? 'light' : 'dark')
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+  <div class="app">
+    <header>
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/sound">Sound</RouterLink>
+        <RouterLink to="/frontend">Frontend</RouterLink>
+        <button class="theme-toggle" @click="toggleTheme">
+          {{ isLight ? '● Dark' : '○ Light' }}
+        </button>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+header {
+  padding: 32px 32px 0;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.theme-toggle:hover {
+  opacity: 0.4;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  display: flex;
+  gap: 24px;
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease-in-out;
 }
 
-nav a:first-of-type {
-  border: 0;
+nav a:hover {
+  opacity: 0.4;
 }
 
-@media (min-width: 1024px) {
+nav a.router-link-active {
+  opacity: 1;
+}
+
+nav a:not(.router-link-active) {
+  opacity: 0.4;
+}
+
+@media (max-width: 480px) {
   header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    padding: 20px 16px 0;
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    gap: 16px;
   }
 }
 </style>

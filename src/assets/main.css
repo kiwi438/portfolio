@@ -1,35 +1,80 @@
-@import './base.css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/outfit';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+  --bg: #111;
+  --text: #e5e5e5;
+  --text-muted: #888;
+  --text-faint: #555;
+  --border: rgba(255, 255, 255, 0.08);
+  --selection-bg: #e5e5e5;
+  --selection-text: #111;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+:root.light {
+  --bg: #fafafa;
+  --text: #111;
+  --text-muted: #666;
+  --text-faint: #999;
+  --border: rgba(0, 0, 0, 0.08);
+  --selection-bg: #111;
+  --selection-text: #fafafa;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+[v-cloak] {
+  display: none;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    'Outfit Variable',
+    'Inter Variable',
+    -apple-system,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  min-height: 100svh;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+.page {
+  padding: 48px 32px;
+  max-width: 640px;
+}
+
+.page h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.002em;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 32px 16px;
   }
-}
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  .page h1 {
+    font-size: 1.25rem;
   }
 }
