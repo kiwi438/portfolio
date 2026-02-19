@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      if (localStorage.getItem('theme') === 'light') {
+      const theme = localStorage.getItem('theme')
+
+      if (
+        theme === 'light' ||
+        (!theme && window.matchMedia('(prefers-color-scheme: light)').matches)
+      ) {
         document.documentElement.classList.add('light')
-      } else {
-        document.documentElement.style.backgroundColor = '#111'
-        document.documentElement.style.color = '#e5e5e5'
       }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

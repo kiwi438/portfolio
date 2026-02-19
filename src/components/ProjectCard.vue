@@ -11,7 +11,14 @@ defineEmits(['select'])
 </script>
 
 <template>
-  <article class="card" @click="$emit('select')">
+  <article
+    class="card"
+    tabindex="0"
+    role="button"
+    @click="$emit('select')"
+    @keydown.enter="$emit('select')"
+    @keydown.space.prevent="$emit('select')"
+  >
     <div class="card-content">
       <h2>{{ title }}</h2>
       <span v-if="status" class="status">{{ status }}</span>
@@ -39,6 +46,12 @@ defineEmits(['select'])
 
 .card:hover {
   opacity: 0.7;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--text-muted);
+  outline-offset: 8px;
+  border-radius: 2px;
 }
 
 .card-content {
@@ -109,10 +122,6 @@ defineEmits(['select'])
     flex-direction: column-reverse; /* */
     gap: 16px; /* */
     padding: 20px 0;
-  }
-
-  h2 {
-    font-size: 1rem;
   }
 
   /* */

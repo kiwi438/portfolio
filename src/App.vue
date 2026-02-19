@@ -1,14 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import { ref } from 'vue'
+import { useTheme } from './composables/useTheme'
 
-const isLight = ref(document.documentElement.classList.contains('light'))
-
-function toggleTheme() {
-  isLight.value = !isLight.value
-  document.documentElement.classList.toggle('light', isLight.value) // ?
-  localStorage.setItem('theme', isLight.value ? 'light' : 'dark')
-}
+const { isLight, toggle } = useTheme()
 </script>
 
 <template>
@@ -18,7 +12,7 @@ function toggleTheme() {
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/sound">Sound</RouterLink>
         <RouterLink to="/frontend">Frontend</RouterLink>
-        <button class="theme-toggle" @click="toggleTheme">
+        <button class="theme-toggle" @click="toggle">
           {{ isLight ? '● Dark' : '○ Light' }}
         </button>
       </nav>

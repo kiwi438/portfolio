@@ -1,32 +1,71 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   project: { type: Object, required: true },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close']) /* ? */
 
-function onKeydown(e) {
-  if (e.key === 'Escape') emit('close')
+const modalRef = ref(null)
+const previouslyFocused = ref(null)
+
+function getFocusableElement() {
+  if (!modalRef.value) return []
+
+  return [
+    ...modalRef.value.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    ),
+  ] /* ? */
+}
+
+function trapFocus(e) {
+  if (e.key === 'Escape') {
+    emit('close')
+    return
+  }
+
+  if (e.key !== 'Tab') return /* ? */
+
+  const focusable = getFocusableElement() /* ? */
+  if (!focusable.length) return /* ? */
+
+  const first = focusable[0] /* ? */
+  const last = focusable[focusable.length - 1] /* ? */
+
+  if (e.shiftKey && document.activeElement === first) {
+    /* ? */
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    /* ? */
+    e.preventDefault()
+    first.focus()
+  }
 }
 
 onMounted(() => {
-  document.body.style.overflow = 'hidden' /* */
-  document.addEventListener('keydown', onKeydown)
+  previouslyFocused.value = document.activeElement /* ? */
+  document.body.style.overflow = 'hidden' /* ? */
+  document.addEventListener('keydown', trapFocus) /* ? */
+
+  nextTick(() => modalRef.value?.querySelector('.modal-close')?.focus()) /* ? */
 })
 
 onUnmounted(() => {
-  document.body.style.overflow = '' /* */
-  document.removeEventListener('keydown', onKeydown)
+  document.body.style.overflow = '' /* ? */
+  document.removeEventListener('keydown', trapFocus) /* ? */
+  previouslyFocused.value?.focus()
 })
 </script>
 
 <template>
+  <!-- Teleport??? -->
   <Teleport to="body">
     <div class="modal-backdrop" @click.self="$emit('close')">
-      <div class="modal" role="dialog" aria-modal="true">
-        <button class="modal-close" @click="$emit('close')">X</button>
+      <div ref="modalRef" class="modal" role="dialog" aria-modal="true" :aria-label="project.title">
+        <button class="modal-close" @click="$emit('close')" aria-label="Close">✕</button>
 
         <h1 class="modal-title">{{ project.title }}</h1>
         <p class="modal-role" v-if="project.role">{{ project.role }}</p>
@@ -76,21 +115,24 @@ onUnmounted(() => {
 <style scoped>
 .modal-backdrop {
   position: fixed;
-  inset: 0; /* */
+  inset: 0; /* ??? */
   background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 48px 24px;
-  overflow-y: auto; /* */
+  overflow-y: auto;
   z-index: 100;
 }
+
+/* Сейчас если по инерции прокрутить наверх то backdrop пропадет */
+/* Сделать модалку размером как в upwork */
 
 .modal {
   position: relative;
   background: var(--bg);
-  max-width: 960px; /* */
-  width: 100%; /* */
+  max-width: 1320px; /* увеличить */
+  width: 100%; /* ??? */
   padding: 48px;
   border-radius: 4px;
 }
