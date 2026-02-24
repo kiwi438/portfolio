@@ -56,9 +56,7 @@ export function detectPlatform(url, explicitPlatform) {
         return platforms[key]
       }
     }
-  } catch (e) {
-    console.warn(`Invalid URL: ${url}`)
-  }
+  } catch (e) {}
 
   return defaultPlatform
 }

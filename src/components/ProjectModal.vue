@@ -26,7 +26,7 @@ function getFocusableElement() {
 
 function trapFocus(e) {
   if (e.key === 'Escape') {
-    emit('close')
+    close()
     return
   } /* ? */
   if (e.key !== 'Tab') return /* ? */
@@ -81,7 +81,7 @@ onUnmounted(() => {
   <!-- Teleport??? -->
   <Teleport to="body">
     <Transition name="modal" @after-leave="onAfterLeave">
-      <div v-if="visible" class="modal-backdrop" @click.self="$emit('close')">
+      <div v-if="visible" class="modal-backdrop" @click.self="$close()">
         <div
           ref="modalRef"
           class="modal"

@@ -12,7 +12,7 @@
       </nav>
     </div>
 
-    <img src="/public/images/main/me.webp" alt="Dima Timofeev — portrait" class="photo" />
+    <img src="/images/main/me.webp" alt="Dima Timofeev — portrait" class="photo" />
   </main>
 </template>
 
