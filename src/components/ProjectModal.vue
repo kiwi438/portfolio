@@ -81,7 +81,7 @@ onUnmounted(() => {
   <!-- Teleport??? -->
   <Teleport to="body">
     <Transition name="modal" @after-leave="onAfterLeave">
-      <div v-if="visible" class="modal-backdrop" @click.self="$close()">
+      <div v-if="visible" class="modal-backdrop" @click.self="close">
         <div
           ref="modalRef"
           class="modal"

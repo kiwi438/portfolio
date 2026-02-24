@@ -56,7 +56,7 @@ export function detectPlatform(url, explicitPlatform) {
         return platforms[key]
       }
     }
-  } catch (e) {}
+  } catch {}
 
   return defaultPlatform
 }
