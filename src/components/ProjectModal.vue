@@ -1,5 +1,7 @@
 <script setup>
 import { ref, nextTick, onMounted, onUnmounted } from 'vue'
+import { detectPlatform } from '@/data/platforms'
+import AudioPlayer from '@/components/AudioPlayer.vue'
 
 const props = defineProps({
   project: { type: Object, required: true },
@@ -7,8 +9,10 @@ const props = defineProps({
 
 const emit = defineEmits(['close']) /* ? */
 
+const visible = ref(false) /* ? */
 const modalRef = ref(null)
 const previouslyFocused = ref(null)
+const contentReady = ref(false)
 
 function getFocusableElement() {
   if (!modalRef.value) return []
@@ -24,8 +28,7 @@ function trapFocus(e) {
   if (e.key === 'Escape') {
     emit('close')
     return
-  }
-
+  } /* ? */
   if (e.key !== 'Tab') return /* ? */
 
   const focusable = getFocusableElement() /* ? */
@@ -45,11 +48,25 @@ function trapFocus(e) {
   }
 }
 
+function close() {
+  visible.value = false
+}
+
+function onAfterLeave() {
+  document.body.style.overflow = '' /* ? */
+  document.removeEventListener('keydown', trapFocus) /* ? */
+  previouslyFocused.value?.focus() /* ? */
+  emit('close') /* ? */
+}
+
 onMounted(() => {
   previouslyFocused.value = document.activeElement /* ? */
   document.body.style.overflow = 'hidden' /* ? */
   document.addEventListener('keydown', trapFocus) /* ? */
-
+  visible.value = true /* ? */
+  requestAnimationFrame(() => {
+    contentReady.value = true
+  })
   nextTick(() => modalRef.value?.querySelector('.modal-close')?.focus()) /* ? */
 })
 
@@ -63,56 +80,112 @@ onUnmounted(() => {
 <template>
   <!-- Teleport??? -->
   <Teleport to="body">
-    <div class="modal-backdrop" @click.self="$emit('close')">
-      <div ref="modalRef" class="modal" role="dialog" aria-modal="true" :aria-label="project.title">
-        <button class="modal-close" @click="$emit('close')" aria-label="Close">✕</button>
+    <Transition name="modal" @after-leave="onAfterLeave">
+      <div v-if="visible" class="modal-backdrop" @click.self="$emit('close')">
+        <div
+          ref="modalRef"
+          class="modal"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="project.title"
+        >
+          <button class="modal-close" @click="close" aria-label="Close">✕</button>
 
-        <h1 class="modal-title">{{ project.title }}</h1>
-        <p class="modal-role" v-if="project.role">{{ project.role }}</p>
+          <div class="modal-body">
+            <div class="modal-info">
+              <h1 class="modal-title">{{ project.title }}</h1>
+              <p class="modal-role" v-if="project.role">{{ project.role }}</p>
+              <p class="modal-description">{{ project.description }}</p>
 
-        <div class="modal-body">
-          <div class="modal-info">
-            <p class="modal-description">{{ project.description }}</p>
-
-            <div class="modal-tags" v-if="project.tags?.length">
-              <h3>Skills</h3>
-              <div class="tags">
-                <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
+              <div class="modal-tags" v-if="project.tags?.length">
+                <h3>Skills</h3>
+                <div class="tags">
+                  <span v-for="tag in project.tags" :key="tag">{{ tag }}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="modal-media" v-if="project.media?.length">
-            <template v-for="item in project.media" :key="item.url">
-              <div v-if="item.type === 'video'" class="media-item">
-                <iframe
-                  :src="item.url"
-                  :title="item.title || 'Video'"
-                  frameborder="0"
-                  allowfullscreen
-                  loading="lazy"
-                ></iframe>
-              </div>
+            <div class="modal-media" v-if="contentReady && project.media?.length">
+              <template v-for="item in project.media" :key="item.url">
+                <!-- Video -->
+                <div v-if="item.type === 'video'" class="media-item">
+                  <iframe
+                    :src="item.url"
+                    :title="item.title || 'Video'"
+                    frameborder="0"
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                </div>
 
-              <div v-if="item.type === 'audio'" class="media-item media-audio">
-                <p class="media-title">{{ item.title }}</p>
-                <audio controls preload="metadata">
-                  <source :src="item.url" />
-                </audio>
-              </div>
+                <!-- Audio -->
+                <AudioPlayer v-if="item.type === 'audio'" :src="item.url" :title="item.title" />
 
-              <div v-if="item.type === 'image'" class="media-item">
-                <img :src="item.url" :alt="item.title || project.title" loading="lazy" />
-              </div>
-            </template>
+                <!-- Image -->
+                <div v-if="item.type === 'image'" class="media-item">
+                  <img :src="item.url" :alt="item.title || project.title" loading="lazy" />
+                </div>
+
+                <!-- Link -->
+                <template v-if="item.type === 'link'">
+                  <a
+                    :href="item.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="media-item media-link"
+                    :style="{ '--platform-color': detectPlatform(item.url, item.platform).color }"
+                  >
+                    <span class="link-icon">{{
+                      detectPlatform(item.url, item.platform).icon
+                    }}</span>
+                    <span class="link-content">
+                      <span class="link-title">{{ item.title }}</span>
+                      <span class="link-platform">{{
+                        detectPlatform(item.url, item.platform).label
+                      }}</span>
+                    </span>
+                    <span class="link-arrow">↗</span>
+                  </a>
+                </template>
+              </template>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
 <style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease-in-out;
+  will-change: opacity;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .modal,
+.modal-leave-active .modal {
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+  will-change: opacity, transform;
+}
+
+.modal-enter-from .modal {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.modal-leave-to .modal {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0; /* ??? */
@@ -121,7 +194,6 @@ onUnmounted(() => {
   justify-content: center;
   align-items: flex-start;
   padding: 48px 24px;
-  overflow-y: auto;
   z-index: 100;
 }
 
@@ -133,14 +205,19 @@ onUnmounted(() => {
   background: var(--bg);
   max-width: 1320px; /* увеличить */
   width: 100%; /* ??? */
-  padding: 48px;
-  border-radius: 4px;
+  padding: 0;
+  border-radius: 8px;
+
+  height: calc(100svh - 96px);
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-close {
   position: absolute;
   top: 16px;
   right: 16px;
+  z-index: 1;
   background: none;
   border: none;
   color: var(--text-muted);
@@ -160,7 +237,6 @@ onUnmounted(() => {
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 4px;
-  margin-right: 40px;
 }
 
 .modal-role {
@@ -171,8 +247,15 @@ onUnmounted(() => {
 
 .modal-body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 48px;
+  align-items: start;
+
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 48px;
 }
 
 .modal-description {
@@ -202,7 +285,12 @@ onUnmounted(() => {
   color: var(--text);
   border: 1px solid var(--border);
   padding: 4px 12px;
-  border-radius: 2px;
+  border-radius: 8px;
+}
+
+.modal-info {
+  position: sticky;
+  top: 0;
 }
 
 .modal-media {
@@ -214,18 +302,18 @@ onUnmounted(() => {
 .media-item iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 2px;
+  border-radius: 8px;
 }
 
 .media-item img {
   width: 100%;
-  border-radius: 2px;
+  border-radius: 8px;
 }
 
 .media-audio {
   background: var(--border);
   padding: 16px;
-  border-radius: 2px;
+  border-radius: 8px;
 }
 
 .media-title {
@@ -238,14 +326,71 @@ onUnmounted(() => {
   width: 100%;
 }
 
+.media-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.media-link:hover {
+  border-color: var(--platform-color);
+}
+
+.link-icon {
+  font-size: 1.25rem;
+  color: var(--platform-color);
+  flex-shrink: 0;
+}
+
+.link-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.link-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.link-platform {
+  font-size: 0.75rem;
+  color: var(--platform-color);
+}
+
+.link-arrow {
+  margin-left: auto;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  transition: color 0.2s ease-in-out;
+}
+
+.media-link:hover .link-arrow {
+  color: var(--platform-color);
+}
+
 @media (max-width: 640px) {
   .modal {
-    padding: 32px 20px;
+    height: auto;
+    max-height: calc(100svh - 48px);
   }
 
   .modal-body {
     grid-template-columns: 1fr;
     gap: 32px;
+    padding: 32px 20px;
+    overflow-y: auto;
+  }
+
+  .modal-info {
+    position: static;
   }
 }
 </style>

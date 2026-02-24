@@ -1,6 +1,4 @@
-<script setup>
-import me from '@/assets/images/me.webp'
-</script>
+<script setup></script>
 
 <template>
   <main class="home">
@@ -14,7 +12,7 @@ import me from '@/assets/images/me.webp'
       </nav>
     </div>
 
-    <img :src="me" alt="Dima Timofeev — portrait" class="photo" />
+    <img src="/public/images/main/me.webp" alt="Dima Timofeev — portrait" class="photo" />
   </main>
 </template>
 

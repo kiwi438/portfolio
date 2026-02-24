@@ -23,6 +23,7 @@ defineEmits(['select'])
       <h2>{{ title }}</h2>
       <span v-if="status" class="status">{{ status }}</span>
       <p>{{ description }}</p>
+      <slot />
       <div class="tags" v-if="tags.length">
         <span v-for="tag in tags" :key="tag">{{ tag }}</span>
       </div>

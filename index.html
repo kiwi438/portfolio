@@ -2,6 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dima Payne</title>
+    <meta
+      name="description"
+      content="Portfolio of Dima Timofeev – musician, sound designer, and frontend developer."
+    />
+
     <script>
       const theme = localStorage.getItem('theme')
 
@@ -12,11 +19,18 @@
         document.documentElement.classList.add('light')
       }
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dima Payne</title>
+
+    <meta property="og:title" content="Dima Payne" />
+    <meta
+      property="og:description"
+      content="Portfolio of Dima Payne – musician, sound designer, and frontend developer."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="/og-image.png" />
   </head>
   <body>
-    <div id="app" v-cloak></div>
+    <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

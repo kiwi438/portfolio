@@ -21,10 +21,6 @@
   --selection-text: #fafafa;
 }
 
-[v-cloak] {
-  display: none;
-}
-
 *,
 *::before,
 *::after {

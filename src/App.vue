@@ -9,20 +9,34 @@ const { isLight, toggle } = useTheme()
   <div class="app">
     <header>
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/sound">Sound</RouterLink>
-        <RouterLink to="/frontend">Frontend</RouterLink>
+        <RouterLink :to="{ name: 'home' }">Home</RouterLink>
+        <RouterLink :to="{ name: 'sound' }">Sound</RouterLink>
+        <RouterLink :to="{ name: 'frontend' }">Frontend</RouterLink>
         <button class="theme-toggle" @click="toggle">
           {{ isLight ? '● Dark' : '○ Light' }}
         </button>
       </nav>
     </header>
 
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" :key="$route.path" />
+      </Transition>
+    </RouterView>
   </div>
 </template>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -64,7 +78,7 @@ nav a {
 }
 
 nav a:hover {
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 nav a.router-link-active {
