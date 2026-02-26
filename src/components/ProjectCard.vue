@@ -40,12 +40,15 @@ defineEmits(['select'])
 </template>
 
 <style scoped>
-.img {
+.card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
-.img.loaded {
+.card-thumbnail img.loaded {
   opacity: 1;
 }
 

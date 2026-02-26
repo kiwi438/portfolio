@@ -162,12 +162,16 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.img {
+.media-item img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
-.img.loaded {
+.media-item img.loaded {
   opacity: 1;
 }
 
