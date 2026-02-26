@@ -123,7 +123,12 @@ onUnmounted(() => {
 
                 <!-- Image -->
                 <div v-if="item.type === 'image'" class="media-item">
-                  <img :src="item.url" :alt="item.title || project.title" loading="lazy" />
+                  <img
+                    :src="item.url"
+                    :alt="item.title || project.title"
+                    loading="lazy"
+                    @load="$event.target.classList.add('loaded')"
+                  />
                 </div>
 
                 <!-- Link -->
@@ -157,6 +162,15 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.img.loaded {
+  opacity: 1;
+}
+
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease-in-out;
@@ -308,6 +322,19 @@ onUnmounted(() => {
 .media-item img {
   width: 100%;
   border-radius: var(--border-radius);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.media-item img,
+.card-thumbnail {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.media-item img [complete],
+.card-thumbnail[complete] {
+  opacity: 1;
 }
 
 .media-audio {

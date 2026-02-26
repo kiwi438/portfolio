@@ -29,12 +29,26 @@ defineEmits(['select'])
       </div>
     </div>
     <div class="card-thumbnail" v-if="thumbnail">
-      <img :src="thumbnail" :alt="title" loading="lazy" />
+      <img
+        :src="thumbnail"
+        :alt="title"
+        loading="lazy"
+        @load="$event.target.classList.add('loaded')"
+      />
     </div>
   </article>
 </template>
 
 <style scoped>
+.img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.img.loaded {
+  opacity: 1;
+}
+
 .card {
   display: flex;
   gap: 24px;
