@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import ProjectModal from '@/components/ProjectModal.vue'
 import { soundProjects } from '../data/soundProjects'
@@ -11,6 +11,15 @@ function openProject(project) {
   hoveredThumbnail.value = null
   selectedProject.value = project
 }
+
+onMounted(() => {
+  soundProjects.forEach((project) => {
+    if (project.thumbnail) {
+      const img = new Image()
+      img.src = project.thumbnail
+    }
+  })
+})
 </script>
 
 <template>
