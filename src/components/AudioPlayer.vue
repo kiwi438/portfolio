@@ -135,7 +135,7 @@ onUnmounted(() => {
   gap: 12px;
   padding: 16px 20px;
   background: var(--border);
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   touch-action: none;
   user-select: none;

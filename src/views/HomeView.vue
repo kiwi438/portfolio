@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <main class="home">
     <div class="intro">

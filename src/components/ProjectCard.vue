@@ -52,7 +52,7 @@ defineEmits(['select'])
 .card:focus-visible {
   outline: 2px solid var(--text-muted);
   outline-offset: 8px;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
 }
 
 .card-content {
@@ -67,7 +67,7 @@ defineEmits(['select'])
   color: var(--text-faint);
   border: 1px solid var(--border);
   padding: 2px 8px;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
 }
 
 .card-content h2 {
@@ -109,7 +109,7 @@ defineEmits(['select'])
   width: 200px;
   height: 140px;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
 }
 
 .card-thumbnail img {

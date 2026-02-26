@@ -78,7 +78,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- Teleport??? -->
+  <!-- Teleport -->
   <Teleport to="body">
     <Transition name="modal" @after-leave="onAfterLeave">
       <div v-if="visible" class="modal-backdrop" @click.self="close">
@@ -206,7 +206,7 @@ onUnmounted(() => {
   max-width: 1320px; /* увеличить */
   width: 100%; /* ??? */
   padding: 0;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 
   height: calc(100svh - 96px);
   display: flex;
@@ -285,7 +285,7 @@ onUnmounted(() => {
   color: var(--text);
   border: 1px solid var(--border);
   padding: 4px 12px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .modal-info {
@@ -302,18 +302,18 @@ onUnmounted(() => {
 .media-item iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .media-item img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .media-audio {
   background: var(--border);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .media-title {
@@ -332,7 +332,7 @@ onUnmounted(() => {
   gap: 16px;
   padding: 16px 20px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   text-decoration: none;
   color: var(--text);
   transition: border-color 0.2s ease-in-out;

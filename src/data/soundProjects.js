@@ -6,11 +6,11 @@ export const soundProjects = [
     description:
       'Co-produced 6 tracks, managed session files and project organization for the artist, performed vocal correction (iZotope RX, Melodyne), and delivered final mixes and masters. Provided ongoing technical consultation throughout the project.',
     tags: ['Reaper', 'iZotope RX', 'Melodyne', 'Ableton Live', 'FL Studio'],
-    thumbnail: '/images/sir-soylok-projects/preview.jpg',
+    thumbnail: '/images/sir-soylok-projects/preview.webp',
     media: [
-      { type: 'image', url: '/images/sir-soylok-projects/preview.jpg' },
+      { type: 'image', url: '/images/sir-soylok-projects/preview.webp' },
       { type: 'video', url: 'https://www.youtube.com/embed/lLOudGP2olE' },
-      { type: 'image', url: '/images/sir-soylok-projects/logo.jpeg' },
+      { type: 'image', url: '/images/sir-soylok-projects/logo.webp' },
       {
         type: 'link',
         url: 'https://soundcloud.com/user-53387538/sets/on-social-mixtape',
@@ -25,9 +25,9 @@ export const soundProjects = [
     description:
       'Full-cycle production and sound design for two albums. Handled vocal editing and tuning (Melodyne, iZotope RX), rhythmic correction, mixing, and mastering. A start-to-finish production showcase',
     tags: ['Ableton Live', 'Melodyne', 'iZotope RX', 'Reaper'],
-    thumbnail: '/images/ulyba/ulyba-alt.jpg',
+    thumbnail: '/images/ulyba/ulyba-alt.webp',
     media: [
-      { type: 'image', url: '/images/ulyba/ulyba-alt.jpg' },
+      { type: 'image', url: '/images/ulyba/ulyba-alt.webp' },
       { type: 'video', url: 'https://www.youtube.com/embed/seJ0E5AmDLE?si=keAIW9bYq9AgoKU8' },
       { type: 'video', url: 'https://www.youtube.com/embed/OZYJ-7qwSYo?si=zIsNYMO4Nh9p5xmw' },
       {
@@ -51,7 +51,7 @@ export const soundProjects = [
     tags: ['iZotope RX', 'Audio Restoration', 'Dialogue Editing'],
     thumbnail: '/images/flea-territory/preview.webp',
     media: [
-      { type: 'image', url: 'images/flea-territory/preview.webp' },
+      { type: 'image', url: '/images/flea-territory/preview.webp' },
       { type: 'video', url: 'https://www.youtube.com/embed/0nYdPX4lhRo?si=KHntajaYoJwzRby5' },
       { type: 'link', url: 'https://artdoc.media/en/movie/bloshinaya_territoriya_2021_34' },
     ],
@@ -79,12 +79,8 @@ export const soundProjects = [
     thumbnail: '/images/moscow-museum/preview.webp',
     media: [
       { type: 'image', url: '/images/moscow-museum/preview.webp' },
-      { type: 'audio', url: '/audio/moscow-museum.wav', title: 'Full DNA' },
+      { type: 'audio', url: '/audio/moscow-museum.mp3', title: 'Full DNA' },
       { type: 'image', url: '/images/moscow-museum/place.webp' },
-      // TODO: Add Vimeo video URL (replace with actual video URL)
-      // { type: 'video', url: 'https://vimeo.com/YOUR_VIDEO_ID', title: 'аудиобрендинг Музей Москвы' },
-      // { type: 'audio', url: '/audio/moscow-museum.wav', title: 'Moscow Museum.wav' },
-      // { type: 'image', url: '/images/moscow-museum-full.jpg' },
     ],
   },
 ]

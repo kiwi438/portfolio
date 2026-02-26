@@ -9,6 +9,7 @@
   --border: rgba(255, 255, 255, 0.08);
   --selection-bg: #e5e5e5;
   --selection-text: #111;
+  --border-radius: 8px;
 }
 
 :root.light {

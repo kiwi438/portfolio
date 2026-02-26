@@ -48,8 +48,7 @@ export function detectPlatform(url, explicitPlatform) {
   }
 
   try {
-    const hostname = new URL(url).hostname.replace('www.', '') // ?
-
+    const hostname = new URL(url).hostname.replace('www.', '')
     for (const [domain, key] of Object.entries(domainMap)) {
       if (hostname === domain || hostname.endsWith(`.${domain}`)) {
         // endsWith для поддержки поддоменов, например, open.spotify.com

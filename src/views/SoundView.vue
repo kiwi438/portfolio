@@ -51,7 +51,7 @@ function openProject(project) {
   width: 45vw;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   pointer-events: none;
   z-index: 10;
 }
@@ -62,7 +62,7 @@ function openProject(project) {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
 }
 
 .preview-enter-active {
@@ -91,6 +91,16 @@ function openProject(project) {
   .thumbnail-preview {
     width: 35vw;
     transform: translate(130%, -50%);
+  }
+
+  .preview-enter-from {
+    opacity: 0;
+    transform: translate(130%, -50%) translateX(12px);
+  }
+
+  .preview-leave-to {
+    opacity: 0;
+    transform: translate(130%, -50%) translateX(8px);
   }
 }
 
