@@ -47,15 +47,15 @@ export const soundProjects = [
     description:
       'Produced a music track for a new collection "THE_DL_BACKGROUND" by Daria Lukash. The collection was mentioned by the Vogue Russia magazine.',
     tags: ['Ableton Live', 'Music Production'],
-    thumbnail: '/images/the-dl-young/the-dl-background.webp',
+    thumbnail: '/images/the-dl-background/the-dl-background.webp',
     media: [
       { type: 'video', url: 'https://www.youtube.com/embed/WERIiw6Q32s?si=WgA-SKY5TZZvKGbb' },
       {
         type: 'link',
         url: 'https://www.vogue.ru/fashion/chto-nuzhno-znat-o-russkih-finalistkah-global-design-graduate-show-2020',
       },
-      { type: 'image', url: '/images/the-dl-young/the-dl-background.webp' },
-      { type: 'image', url: '/images/the-dl-young/the-dl-background.webp2' },
+      { type: 'image', url: '/images/the-dl-background/the-dl-background.webp' },
+      { type: 'image', url: '/images/the-dl-background/the-dl-background2.webp' },
     ],
   },
   {
